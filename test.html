@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <script type="text/javascript" src="EventEmitter.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    </head>
+    <body>
+        <b>First Name:</b><input type="text" id="first_name"/><br>
+        <b>Last Name:</b><input type="text" id="last_name"/><br>    
+        <div id="name"></div>
+        <script type="text/javascript">
+        var model = {
+            firstName : "",
+            lastName : "",
+            getFullName : function() {
+                return this.firstName + " " + this.lastName;
+            },
+            setFirstName : function(name) {
+                this.firstName = name;
+            },
+            setLastName : function(name) {
+                this.lastName = name;
+            }
+        };
+        
+        EventEmitter.apply(model);
+        
+        model.on("afterSetFirstName",function(e) {
+            $("#name").html(model.getFullName());
+        });
+        model.on("afterSetLastName",function(e) {
+            $("#name").html(model.getFullName());
+        });
+        $("#first_name").on("keyup", function(e) {
+            model.setFirstName($(this).val());
+        });
+        $("#last_name").on("keyup", function(e) {
+            model.setLastName($(this).val());
+        });
+        </script>
+    </body>
+</html>
