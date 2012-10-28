@@ -1,14 +1,17 @@
 <html>
     <head>
         <script type="text/javascript" src="EventEmitter.js"></script>
+        <script type="text/javascript" src="Trace.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <style>
-        .delete { cursor:default;width:10px; margin-right:2px;text-align:center;font-weight:700; }
+        UL { list-style-type:none;font-size:18pt; }
+        .todo { border-style:none none solid none; height:45px; width:500px;font-size:24pt; }
+        .clear { cursor:default;width:10px; margin-right:5px;text-align:center;font-weight:700; }
         </style>
     </head>
     <body>
         <div id="todo">
-            <input type="text" id="task"/>
+            <input type="text" id="task" class="todo"/>
             <div id="display">
                 <ul id="list"></ul>
             </div>
@@ -18,24 +21,24 @@
             tasks : [],
             add : function(task) {
                 this.tasks[this.tasks.length] = task;
-                return this.tasks.length-1;
             },
             remove : function(ndx) {
                 delete this.tasks[ndx];
             }
         };
         
+        
         EventEmitter.apply(todo);
-        todo.bindTo($("#todo"));
+        Trace.apply(todo,[function(m) { console.log(m); }]);
         
         todo.on("afteradd",function(e) {
-            var ndx = e.returnValue;
+            var ndx = todo.tasks.length-1;
             var task = todo.tasks[ndx];
             $("#list").append("<li>")
                       .children(":last-child")
-                        .append("<span>")
+                        .append("<input type=\"checkbox\">")
                         .children(":last-child")
-                            .addClass("delete")
+                            .addClass("clear")
                             .on("click",{"ndx":ndx},function(e) {
                                 todo.remove(e.data.ndx);
                                 $(this).parent().remove();
