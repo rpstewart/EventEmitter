@@ -6,6 +6,9 @@
 var Trace = function(out) {
     // Don't munge the global env
     if(this === window || this === document) return;
+    if(window.console) {
+    	out = console.log;
+    }
     // Cache to store original methods/functions
     var cache = {};
     

@@ -28,8 +28,8 @@
         };
         
         
+        Trace.apply(todo,[function(m) { alert(m); }]);
         EventEmitter.apply(todo);
-        Trace.apply(todo,[function(m) { console.log(m); }]);
         
         todo.on("afteradd",function(e) {
             var ndx = todo.tasks.length-1;
@@ -43,7 +43,6 @@
                                 todo.remove(e.data.ndx);
                                 $(this).parent().remove();
                             })
-                            .html("x")
                         .end()
                         .append(task)
                       .end();
